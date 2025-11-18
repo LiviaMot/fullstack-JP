@@ -1,3 +1,4 @@
+import './style.css'
 import { useEffect, useState } from 'react'
 import { getUsers } from '../../api/users'
 import { Link } from 'react-router-dom'
