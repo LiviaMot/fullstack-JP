@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { createUser } from "../../api/users"
 import { useNavigate } from "react-router-dom"
+import './style.css'
 
 export default function CreateUser() {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ export default function CreateUser() {
 
   return (
     <main>
-      <form>
+      <form className="form">
         <div>
           <label>Nome: </label>
           <input type="text" name="nome" id="nome" value={user.nome} onChange={handleChange} />
@@ -48,8 +49,10 @@ export default function CreateUser() {
           <input type="password" name="senha" id="senha" value={user.senha} onChange={handleChange} />
         </div>
 
-        <button type="reset">Limpar</button>
-        <button type="submit" onClick={handleSave}>Enviar</button>
+        <div className="actions">
+          <button type="reset">Limpar</button>
+          <button type="submit" onClick={handleSave}>Enviar</button>
+        </div>
       </form>
     </main>
   )
