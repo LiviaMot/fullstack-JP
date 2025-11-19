@@ -1,29 +1,35 @@
 import api from "./api"
 
 export const getUsers = async () => {
-    const response = await api.get('/api/v1/users')
+  const response = await api.get('/api/v1/users')
 
-    if(response.status !== 200){
-        return []
-    }
+  if(response.status !== 200){
+      return []
+  }
 
-    return response.data.users
+  return response.data.users
 }
 
 export const createUser = async (user) => {
-    const response = await api.post('/api/v1/user', user)
+  const response = await api.post('/api/v1/user', user)
     
-    return response
+  return response
 }
 
 export const updateUser = async (id, user) => {
-    const response = await api.put(`/api/v1/user/${id}`, user)
+  const response = await api.put(`/api/v1/user/${id}`, user)
 
-    return response
+  return response
 }
 
 export const deleteUser = async (id) => {
-    const response = await api.delete(`/api/v1/user/${id}`)
+  const response = await api.delete(`/api/v1/user/${id}`)
 
-    return response
+  return response
+}
+
+export const loginUser = async (email, senha) => {
+  const response = await api.post('/api/v1/login', { email, senha })
+
+  return response
 }

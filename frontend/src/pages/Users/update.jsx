@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import { updateUser } from "../../api/users"
 import { useNavigate } from "react-router-dom"
+import './style.css'
 
 export default function UpdateUser() {
   const navigate = useNavigate()
