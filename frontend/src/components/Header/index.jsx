@@ -13,7 +13,12 @@ export default function Header() {
                 </Link>
                 <Link to='/users'>
                     <button>
-                        API
+                        Usuários
+                    </button>
+                </Link>
+                <Link to='/login'>
+                    <button>
+                        Login
                     </button>
                 </Link>
             </nav>
