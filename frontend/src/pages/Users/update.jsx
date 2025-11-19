@@ -1,5 +1,5 @@
 // passar as informações da página para o index
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { updateUser } from "../../api/users"
 import { useNavigate } from "react-router-dom"
 
@@ -13,6 +13,9 @@ export default function UpdateUser() {
     ativo: true
   })
 
+  const location = useLocation()
+  const { user: prevUser } = location.state
+
   const handleChange = (e) => {
     const {id, value} = e.target
     setUser({
@@ -23,18 +26,23 @@ export default function UpdateUser() {
 
   const handleReset = (e) => {
     e.preventDefault()
-    setUser(INITIAL_STATE)
+    setUser({...prevUser, senha: ''})
   }
 
   const handleSave = async (e) => {
     e.preventDefault()
-    const response = await updateUser(user)
+    const response = await updateUser(prevUser.id, user)
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       navigate('/users')
+    } else {
+      console.log(response)
     }
-    console.log(response)
   }
+
+  useEffect(() => {
+    setUser({ ...prevUser, senha: '' })
+  }, [])
 
   return (
     <main>
