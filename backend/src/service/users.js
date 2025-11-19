@@ -40,13 +40,18 @@ class ServiceUser {
 
   async Update(id, nome, senha) {
     const oldUser = await User.findByPk(id)
-    oldUser.nome = nome || oldUser.nome
 
+    if (!oldUser) {
+      throw new Error('Usuário não encontrado!')      
+    }
+    
+    oldUser.nome = nome || oldUser.nome
     oldUser.senha = senha
       ? await bcrypt.hash(String(senha), SALT)
       : oldUser.senha
 
-    // User.Update(id, nome)
+    
+    oldUser.save()
   }
 
   async Delete(id) {

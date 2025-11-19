@@ -15,11 +15,11 @@ function Users() {
             return
         }
 
-        setUsers(prev => prev.filter(user => user.id === id))
+        setUsers(prev => prev.filter(user => user.id !== id))
     }
 
-    const handleUpdate = async (id) => {
-        navigate('/update/user', { state })
+    const handleUpdate = async (user) => {
+        navigate('/update/user', { state: { user } })
     }
 
     useEffect(() => {
