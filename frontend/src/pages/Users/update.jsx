@@ -1,19 +1,17 @@
+// passar as informações da página para o index
 import { useState } from "react"
-import { createUser } from "../../api/users"
+import { updateUser } from "../../api/users"
 import { useNavigate } from "react-router-dom"
-import './style.css'
 
-const INITIAL_STATE = {
-  nome: '',
-  email: '',
-  senha: '',
-  ativo: true
-}
-
-export default function CreateUser() {
+export default function UpdateUser() {
   const navigate = useNavigate()
 
-  const [user, setUser] = useState(INITIAL_STATE) // estado inicial | valor fixo
+  const [user, setUser] = useState({
+    nome: '',
+    email: '',
+    senha: '',
+    ativo: true
+  })
 
   const handleChange = (e) => {
     const {id, value} = e.target
@@ -30,9 +28,7 @@ export default function CreateUser() {
 
   const handleSave = async (e) => {
     e.preventDefault()
-    // é importante validar os valores dos objetos antes de enviar
-    // adicionar um 'tost?' - mensagem pop-up
-    const response = await createUser(user)
+    const response = await updateUser(user)
 
     if (response.status === 201) {
       navigate('/users')

@@ -38,23 +38,25 @@ class ServiceUser {
     })
   }
 
-  async Update(id, nome) {
-    const oldUser = User.findByPk(id)
+  async Update(id, nome, senha) {
+    const oldUser = await User.findByPk(id)
+    oldUser.nome = nome || oldUser.nome
+
     oldUser.senha = senha
-      ? await bcrypt.hash(String(senha), SALT) // if
-      : oldUser.senha // else
+      ? await bcrypt.hash(String(senha), SALT)
+      : oldUser.senha
 
     // User.Update(id, nome)
   }
 
   async Delete(id) {
-    const oldUser = User.findByPk(id)
+    const oldUser = await User.findByPk(id)
 
     if (!oldUser) {
       throw new Error(`Usuário ${id} não encontrado`)
     }
     
-    await User.destroy(id)
+    oldUser.destroy(id)
   }
 
   async Login(email, senha) {
