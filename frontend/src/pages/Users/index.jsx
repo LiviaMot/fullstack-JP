@@ -1,31 +1,31 @@
-import './style.css'
 import { useEffect, useState } from 'react'
-import { getUsers } from '../../api/users'
+import { deleteUser, getUsers } from '../../api/users'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import './style.css'
 
 function Users() {
-    const [conteudo, setConteudo] = useState(<>Carregando</>)
+    const [ users, setUsers ] = useState([])
 
-    async function TranformaEmLista() {
-        const todosUsuarios = await getUsers()
+    const handleDelete = async (id) => {
+        const response = await deleteUser(id)
 
-        return todosUsuarios.map(user =>
-            <div className='user' key={user.id}>
-                <label>{ user.nome }</label>
-                <label>{ user.email }</label>
-                <div className='actions'>
-                    <button>Alterar</button>
-                    <button>Deletar</button>
-                </div>
-            </div>
-        )
+        if (response.status !== 204) {
+            toast("Erro ao deletar, tentar novamente, mais tarde.")
+            return
+        }
+
+        setUsers(prev => prev.filter(user => user.id === id))
+    }
+
+    const handleUpdate = async (id) => {
+        navigate('/update/user', { state })
     }
 
     useEffect(() => {
         async function carregar() {
-            setConteudo(
-                await TranformaEmLista()
-            )
+            const allUsers = await getUsers()
+            setUsers(allUsers)
         }
         carregar()
     }, [])
@@ -41,7 +41,19 @@ function Users() {
                     <label>Email</label>
                     <label>Ações</label>
                 </div>
-                {conteudo}
+                {
+                    users.length == 0
+                        ? <>Não tem ninguém</>
+                        : users.map(user =>
+                            <div className='user' key={user.id}>
+                                <label>{ user.nome }</label>
+                                <label>{ user.email }</label>
+                                <div className='actions'>
+                                    <button type='button' onClick={() => handleUpdate(user)}>Alterar</button>
+                                    <button type='button' onClick={() => handleDelete(user.id)}>Deletar</button>
+                                </div>
+                            </div>)
+                }
             </div>
         </main>
     )
