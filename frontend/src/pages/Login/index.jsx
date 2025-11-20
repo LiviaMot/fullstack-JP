@@ -1,10 +1,12 @@
 import './styles.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../../api/users'
 import { toast } from 'react-toastify'
+import { AuthContext } from '../../auth/Context'
 
 export default function Login() {
+  const { login } = useContext(AuthContext)
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
@@ -21,8 +23,8 @@ export default function Login() {
 
     try {
       const response = await loginUser(email, senha)
-      console.log()
-      // armazenar o token no storager - response.data.token
+      login(response.data.token)// armazenar o token no storager - response.data.token
+      navigate('/users')
     } catch (error) {
       toast("Email ou senha inválida!")
     }
